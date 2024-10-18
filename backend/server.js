@@ -37,7 +37,7 @@ function calculateVacationDays(startDate, endDate) {
 }
 
 function registerDays(employeeId, effectiveDays) {
-    const record = register.find( r => r.employeeId === employeeId && r.status === 'active');
+    const record = register.find( r => r.employeeId === employeeId && r.status === 'active' || r.status === 'future');
 
     if(!record) {
         const lastRecord = register.findLast( r => r.employeeId === employeeId );
@@ -53,7 +53,7 @@ function registerDays(employeeId, effectiveDays) {
         register.push(nextRecord);
     }
     else {
-        if(record.enjoyedDays + effectiveDays >= record.days) {
+        if(record.status === 'active' && record.enjoyedDays + effectiveDays >= record.days) {
             const diffDays = effectiveDays - (record.days - record.enjoyedDays);
             record.enjoyedDays = record.days;
             record.status = 'closed';
@@ -240,10 +240,10 @@ app.delete('/cancel-vacation', (req, res) => {
 });
 
 function expireDays(period, employee) {
-    const sumEnjoyed = (accumulator, current) => accumulator + current.enjoyed;
+    const sumEnjoyed = (accumulator, current) => accumulator + current.effectiveDays;
     let periodRecord = register.find(p => p.period === period);
 
-    if(!periodRecord) {
+    if(!periodRecord || periodRecord.status === 'closed') {
         return;
     }
 
