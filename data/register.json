@@ -1,0 +1,30 @@
+[
+  {
+    "employeeId": "1",
+    "period": 2024,
+    "days": 10,
+    "enjoyedDays": 0,
+    "status": "closed"
+  },
+  {
+    "employeeId": "1",
+    "period": 2025,
+    "days": 10,
+    "enjoyedDays": 10,
+    "status": "closed"
+  },
+  {
+    "employeeId": "1",
+    "period": 2026,
+    "days": 10,
+    "enjoyedDays": 10,
+    "status": "closed"
+  },
+  {
+    "employeeId": "1",
+    "period": 2027,
+    "days": 10,
+    "enjoyedDays": 5,
+    "status": "active"
+  }
+]

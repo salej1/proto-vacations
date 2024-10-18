@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vacation Requests</title>
+</head>
+<body>
+    <h1>Vacation Requests</h1>
+    <label for="employee-id">Employee ID:</label>
+    <input type="text" id="employee-id" placeholder="Enter your Employee ID">
+    <button id="fetch-requests">Fetch My Requests</button>
+    <div id="requests-list"></div>
+
+    <script>
+        document.getElementById('fetch-requests').addEventListener('click', async () => {
+            const employeeId = document.getElementById('employee-id').value;
+            const response = await fetch(`/vacation-requests/${employeeId}`);
+            const requests = await response.json();
+
+            const requestsList = document.getElementById('requests-list');
+            requestsList.innerHTML = '';
+
+            if (!Array.isArray(requests)) {
+                requestsList.innerHTML = `<p>${requests.message}</p>`;
+                return;
+            }
+
+            requests.forEach(request => {
+                const requestDiv = document.createElement('div');
+                requestDiv.innerHTML = `
+                    <p>Request ID: ${request.id}, Start Date: ${request.startDate}, End Date: ${request.endDate}, Status: ${request.status}</p>
+                    <button class="approve-btn" data-id="${request.id}">Approve</button>
+                    <button class="reject-btn" data-id="${request.id}">Reject</button>
+                    <button class="cancel-btn" data-id="${request.id}">Cancel</button>
+                `;
+                requestsList.appendChild(requestDiv);
+            });
+
+            // Add event listeners for approve reject and cancel buttons
+            document.querySelectorAll('.approve-btn').forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const requestId = event.target.dataset.id;
+                    const approveResponse = await fetch('/approve-vacation', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ employeeId, requestId })
+                    });
+                    const result = await approveResponse.json();
+                    alert(result.message);
+                    // Refresh the list after approval
+                    document.getElementById('fetch-requests').click();
+                });
+            });
+
+            document.querySelectorAll('.reject-btn').forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const requestId = event.target.dataset.id;
+                    const approveResponse = await fetch('/reject-vacation', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ employeeId, requestId })
+                    });
+                    const result = await approveResponse.json();
+                    alert(result.message);
+                    // Refresh the list after approval
+                    document.getElementById('fetch-requests').click();
+                });
+            });
+
+            document.querySelectorAll('.cancel-btn').forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const requestId = event.target.dataset.id;
+                    const cancelResponse = await fetch('/cancel-vacation', {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ employeeId, requestId })
+                    });
+                    const result = await cancelResponse.json();
+                    alert(result.message);
+                    // Refresh the list after cancellation
+                    document.getElementById('fetch-requests').click();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

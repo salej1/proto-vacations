@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vacation Control</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <h1>Vacation Request Form</h1>
+        <form id="vacation-form">
+            <label for="employee-id">Employee ID:</label>
+            <input type="text" id="employee-id" required>
+            <br>
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date" required>
+            <br>
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date" required>
+            <br>
+            <button type="submit">Request Vacation</button>
+        </form>
+        <div id="response"></div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
+

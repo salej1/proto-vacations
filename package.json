@@ -1,0 +1,26 @@
+{
+  "name": "vacation-control-app",
+  "version": "1.0.0",
+  "description": "A web application for managing employee vacation requests.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "keywords": [
+    "vacation",
+    "management",
+    "employee",
+    "request"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "body-parser": "^1.20.2"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
+

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add days</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+
+    <div>
+	  <p>Employee Id: <input type="text" id="employeeId"/></p>
+      Period: <input type="text" id="period"/>
+      <button type="button" onclick="addDays(10)">Add days</button>
+    </div>
+
+    <script>
+    	async function sendData(url, data) {
+			try {
+				const response = await fetch(url, {
+					method: 'POST', // Specify the request method
+					headers: {
+						'Content-Type': 'application/json' // Set the content type
+					},
+					body: JSON.stringify(data) // Convert data to JSON string
+				});
+
+				if (!response.ok) {
+					// If the response is not 2xx, throw an error
+					throw new Error(`HTTP error! Status: ${response.status}`);
+				}
+
+				const responseData = await response.json(); // Parse the JSON response
+				console.log('Response from server:', responseData);
+			} catch (error) {
+				console.error('Error sending data:', error); // Handle and log the error
+			}
+		}
+        
+        function valueOf(field) {
+            return document.getElementById(field).value;
+        }
+
+        function addDays(days) {
+            const period = Number(valueOf('period'));
+			const employeeId = valueOf('employeeId');
+            sendData('http://localhost:3000/add-days', {employeeId, period, days});
+        }
+    </script> <!-- Link to your JavaScript file -->
+</body>
+</html>
+

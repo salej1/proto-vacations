@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "name": "John Doe",
+    "initialVacationDays": 0,
+    "vacationDaysAccumulated": 40,
+    "vacationDaysEnjoyed": 25,
+    "totalVacationDays": -5,
+    "expiredVacationDays": 20,
+    "vacationDaysRequested": [
+      {
+        "id": 1,
+        "startDate": "2024-12-02T06:00:00.000Z",
+        "endDate": "2024-12-13T06:00:00.000Z",
+        "effectiveDays": 10,
+        "status": "Pending"
+      },
+      {
+        "id": 2,
+        "startDate": "2024-12-16T06:00:00.000Z",
+        "endDate": "2024-12-20T06:00:00.000Z",
+        "effectiveDays": 5,
+        "status": "Pending"
+      },
+      {
+        "id": 3,
+        "startDate": "2024-11-04T06:00:00.000Z",
+        "endDate": "2024-11-15T06:00:00.000Z",
+        "effectiveDays": 10,
+        "status": "Pending"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "Jane Smith",
+    "initialVacationDays": 20,
+    "vacationDaysAccumulated": 12,
+    "vacationDaysEnjoyed": 10,
+    "totalVacationDays": 22,
+    "expiredVacationDays": 0,
+    "vacationDaysRequested": []
+  },
+  {
+    "id": "3",
+    "name": "Alice Johnson",
+    "initialVacationDays": 10,
+    "vacationDaysAccumulated": 5,
+    "vacationDaysEnjoyed": 7,
+    "totalVacationDays": 8,
+    "expiredVacationDays": 0,
+    "vacationDaysRequested": [
+      {
+        "id": 1,
+        "startDate": "2024-10-14T06:00:00.000Z",
+        "endDate": "2024-10-16T06:00:00.000Z",
+        "effectiveDays": 3,
+        "status": "Pending"
+      }
+    ]
+  }
+]
