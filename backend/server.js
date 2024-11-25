@@ -36,6 +36,26 @@ function calculateVacationDays(startDate, endDate) {
     return totalDays;
 }
 
+function unRegisterDays(employeeId, effectiveDays) {
+    const record = register.findLast(r => r.employeeId === employeeId);
+
+    let returnCompletePeriod = record.enjoyedDays - effectiveDays < 0;
+
+    if(returnCompletePeriod) {
+        const diffDays = effectiveDays - record.enjoyedDays;
+        const deleteIndex = register.findIndex( r => r.employeeId == record.employeeId && r.period == record.period);
+        register.splice(deleteIndex, 1);
+        unRegisterDays(employeeId, diffDays);
+    } else {
+        record.enjoyedDays = record.enjoyedDays - effectiveDays;
+        
+        if(record.status === 'closed') {
+            record.status = 'active';
+        }
+    }
+
+}
+
 function registerDays(employeeId, effectiveDays) {
     const record = register.find( r => r.employeeId === employeeId && r.status === 'active' || r.status === 'future');
 
@@ -176,9 +196,10 @@ app.post('/reject-vacation', (req, res) => {
 
     employee.vacationDaysEnjoyed -= request.effectiveDays;
     employee.totalVacationDays += request.effectiveDays;
-
+    unRegisterDays(employeeId, request.effectiveDays);
     // Save updated employee data back to JSON file
     fs.writeFileSync('./data/employees.json', JSON.stringify(employees, null, 2));
+    fs.writeFileSync('./data/register.json', JSON.stringify(register, null, 2));
 
     return res.status(200).json({ message: 'Vacation request rejected successfully' });
 });
@@ -228,13 +249,15 @@ app.delete('/cancel-vacation', (req, res) => {
     const canceledRequest = employee.vacationDaysRequested[requestIndex];
     const vacationDays = calculateVacationDays(canceledRequest.startDate, canceledRequest.endDate);
     employee.totalVacationDays += vacationDays; // Update total vacation days
-    employee.vacationDaysEnjoyed -= employee.vacationDaysRequested[requestIndex].effectiveDays;
-
+    const effectiveDays = employee.vacationDaysRequested[requestIndex].effectiveDays;
+    employee.vacationDaysEnjoyed -= effectiveDays;
+    unRegisterDays(employeeId, effectiveDays);
     // Remove the request from the array
     employee.vacationDaysRequested.splice(requestIndex, 1);
 
     // Save updated employee data back to JSON file
     fs.writeFileSync('./data/employees.json', JSON.stringify(employees, null, 2));
+    fs.writeFileSync('./data/register.json', JSON.stringify(register, null, 2));
 
     return res.status(200).json({ message: 'Vacation request canceled successfully' });
 });
